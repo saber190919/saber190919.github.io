@@ -180,14 +180,14 @@
     
     <div class="banner">
             <div class="blog-title">
-                <a href="/" >Chaos_Yeats&#39; Studio.</a>
+                <a href="/" >Chaos_Yeats.</a>
             </div>
             <div class="post-title">
                 <a href="#" class="post-name">hexo配置mathjax</a>
             </div>
     </div>
     
-    <a class="home-link" href=/>Chaos_Yeats' Studio.</a>
+    <a class="home-link" href=/>Chaos_Yeats.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro" style=
@@ -542,9 +542,24 @@ jsonContent:
     </div>
     <!-- async load share.js -->
     
-        <script src="/scripts/share.js" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->    
+        <script src="/scripts/share.js" async></script>    
     
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
 </html>
 
 
