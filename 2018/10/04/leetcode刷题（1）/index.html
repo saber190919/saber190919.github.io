@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>leetcode刷题（1） · Chaos_Yeats&#39; Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180311 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180311 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/qiuye.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Chaos_Yeats&#39; Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">leetcode刷题（1）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Chaos_Yeats' Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            leetcode刷题（1）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = c++>c++</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/10/04</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.You may assume that each input would have exactly one solution, and you may not use the same element twice.Example:<br>Given nums = [2, 7, 11, 15], target = 9,Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
+</blockquote>
+<p>我的解决思路：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rs;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">1</span>;j &lt; nums.size(); j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(target - nums[i] == nums[j])</span><br><span class="line">                &#123;</span><br><span class="line">                    rs.push_back(i);</span><br><span class="line">                    rs.push_back(j);</span><br><span class="line">                    <span class="keyword">return</span> rs;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>看了答案后重新添加了两种时间和存储都在o(n)级别的代码，其实都是hash表的应用：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其一</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rs;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; hashT;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            hashT[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> component = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span>(hashT.find(component)!=hashT.end() &amp;&amp; hashT[component]!=i)</span><br><span class="line">            &#123;</span><br><span class="line">                rs.push_back(hashT[component]);</span><br><span class="line">                rs.push_back(i);</span><br><span class="line">                <span class="keyword">return</span> rs;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//其二</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rs;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; hashT;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> component = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span>(hashT.find(component)!=hashT.end())</span><br><span class="line">            &#123;</span><br><span class="line">                rs.push_back(hashT[component]);</span><br><span class="line">                rs.push_back(i);</span><br><span class="line">                <span class="keyword">return</span> rs;</span><br><span class="line">            &#125;</span><br><span class="line">            hashT[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<blockquote>
+<p>Given a 32-bit signed integer, reverse digits of an integer<br>Example 1:<br>Input: 123<br>Output: 321</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这份代码是错的，我在vs上试了，在对于数字-2147483412的时候，但是为何会这样，必须有个记录。找到错误的原因了，bit_class使用的是float,所以在后面的(int)(bit*bit_class)这般才能解决问题。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;  </span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; num_per_bit;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">abs</span>(x) &gt;= <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            num_per_bit.push_back(x % <span class="number">10</span>);</span><br><span class="line">            x = x / <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        num_per_bit.push_back(x);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> out = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">float</span> bit_class = <span class="number">0.1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i &lt; num_per_bit.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> bit = num_per_bit[num_per_bit.size()-i<span class="number">-1</span>];</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (bit*bit_class &gt; <span class="number">200000000</span> || (bit*bit_class == <span class="number">200000000</span> &amp;&amp; out &gt; <span class="number">147483647</span>))</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (bit*bit_class &lt; <span class="number">-200000000</span> || (bit*bit_class == <span class="number">-200000000</span> &amp;&amp; out &lt; <span class="number">-147483648</span>)) </span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            </span><br><span class="line">            bit_class = bit_class*<span class="number">10</span>;</span><br><span class="line">            out  = (out + bit*bit_class);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> out;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//正确答案</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">int</span> rev = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(x!=<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> pop = x%<span class="number">10</span>;</span><br><span class="line">            x = x/<span class="number">10</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(rev &gt; INT_MAX/<span class="number">10</span>||rev == INT_MAX/<span class="number">10</span> &amp;&amp; pop &gt; <span class="number">7</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(rev &lt; INT_MIN/<span class="number">10</span>||rev == INT_MIN/<span class="number">10</span> &amp;&amp; pop &lt; <span class="number">-8</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            rev = rev*<span class="number">10</span> +pop;</span><br><span class="line">        &#125;  </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> rev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//有了昨天题目的折磨后，便直接使用了逆转来完成，不过应该效率不高</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPalindrome</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == x)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> rev = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> c_x = x;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(x!=<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> pop = x%<span class="number">10</span>;</span><br><span class="line">            x = x/<span class="number">10</span>;</span><br><span class="line">            </span><br><span class="line">            rev = rev*<span class="number">10</span> +pop;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(rev == c_x)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//看了答案后的，其实就是控制了下reverse的数量</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPalindrome</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x &lt; <span class="number">0</span> || x%<span class="number">10</span> == <span class="number">0</span>&amp;&amp;x!=<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> rev = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(rev &lt; x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> pop = x%<span class="number">10</span>;</span><br><span class="line">            x = x/<span class="number">10</span>;</span><br><span class="line">            rev = rev*<span class="number">10</span> +pop;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(rev == x || rev/<span class="number">10</span> == x)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.<br>Symbol       Value<br>I             1<br>V             5<br>X             10<br>L             50<br>C             100<br>D             500<br>M             1000<br>For example, two is written as II in Roman numeral, just two one’s added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II.<br>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:<br>I can be placed before V (5) and X (10) to make 4 and 9.<br>X can be placed before L (50) and C (100) to make 40 and 90.<br>C can be placed before D (500) and M (1000) to make 400 and 900.<br>Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我的解决方案，但是被switch以及substr影响了许久</span></span><br><span class="line"><span class="comment">//substr有2种用法：假设：string s = "0123456789";</span></span><br><span class="line"><span class="comment">//string sub1 = s.substr(5); //只有一个数字5表示从下标为5开始一直到结尾：sub1 = "56789"</span></span><br><span class="line"><span class="comment">//string sub2 = s.substr(5, 3); //从下标为5开始截取长度为3位：sub2 = "567"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> num_iter = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; s.length();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> s1= s.substr(i,<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(s1 == <span class="string">"I"</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                num_iter += <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span>(s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"V"</span> || s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"X"</span>)</span><br><span class="line">                    num_iter -=<span class="number">2</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"V"</span>)&#123;</span><br><span class="line">                num_iter += <span class="number">5</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"X"</span>)&#123;</span><br><span class="line">                num_iter += <span class="number">10</span>;</span><br><span class="line">                <span class="keyword">if</span>(s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"L"</span> || s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"C"</span>)</span><br><span class="line">                    num_iter -=<span class="number">20</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"L"</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                num_iter += <span class="number">50</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"C"</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                num_iter += <span class="number">100</span>;</span><br><span class="line">                <span class="keyword">if</span>(s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"D"</span> || s.substr(i+<span class="number">1</span>,<span class="number">1</span>) == <span class="string">"M"</span>)</span><br><span class="line">                    num_iter -=<span class="number">200</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"D"</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                num_iter += <span class="number">500</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(s1 == <span class="string">"M"</span>)&#123;</span><br><span class="line">                num_iter += <span class="number">1000</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> num_iter;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在discuss里看到的一份解答，感觉不错</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(<span class="built_in">string</span> s)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; T = &#123; &#123; <span class="string">'I'</span> , <span class="number">1</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'V'</span> , <span class="number">5</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'X'</span> , <span class="number">10</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'L'</span> , <span class="number">50</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'C'</span> , <span class="number">100</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'D'</span> , <span class="number">500</span> &#125;,</span><br><span class="line">                                   &#123; <span class="string">'M'</span> , <span class="number">1000</span> &#125; &#125;;</span><br><span class="line">                                   </span><br><span class="line">   <span class="keyword">int</span> sum = T[s.back()];</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = s.length() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) </span><br><span class="line">   &#123;</span><br><span class="line">       <span class="keyword">if</span> (T[s[i]] &lt; T[s[i + <span class="number">1</span>]])</span><br><span class="line">       &#123;</span><br><span class="line">           sum -= T[s[i]];</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">       &#123;</span><br><span class="line">           sum += T[s[i]];</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a function to find the longest common prefix string amongst an array of strings.<br>If there is no common prefix, return an empty string “”.<br>Example 1:<br>Input: [“flower”,”flow”,”flight”]<br>Output: “fl”<br>Example 2:<br>Input: [“dog”,”racecar”,”car”]<br>Output: “”<br>Explanation: There is no common prefix among the input strings.<br>Note:<br>All given inputs are in lowercase letters a-z.<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestCommonPrefix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; strs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> f = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> i_c = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">string</span> prefix = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">while</span>(f&amp;&amp;strs.size()&gt;<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i_s = <span class="number">0</span>;i_s &lt; strs.size()<span class="number">-1</span>;i_s++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(!(strs[i_s].length() &gt; i_c) || !(strs[i_s+<span class="number">1</span>].length() &gt; i_c))</span><br><span class="line">                    <span class="keyword">return</span> prefix;</span><br><span class="line">                <span class="keyword">if</span>(strs[i_s].substr(i_c,<span class="number">1</span>)!=strs[i_s+<span class="number">1</span>].substr(i_c,<span class="number">1</span>) )</span><br><span class="line">                &#123;</span><br><span class="line">                    f = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(f) prefix = prefix + strs[<span class="number">0</span>].substr(i_c,<span class="number">1</span>);</span><br><span class="line">            i_c++;</span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span> == strs.size())</span><br><span class="line">            prefix = strs[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">return</span> prefix;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//这是答案中解法1自己写的c++版本</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestCommonPrefix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; strs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == strs.size())</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="built_in">string</span> prefix = strs[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt; strs.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(strs[i].find(prefix)!=<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                prefix = prefix.substr(<span class="number">0</span>,prefix.length()<span class="number">-1</span>);</span><br><span class="line">                <span class="keyword">if</span>(!prefix.compare(<span class="string">""</span>))</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> prefix;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<ol>
+<li>Remove Duplicates from Sorted Array</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeDuplicates</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i_conquer = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nums.size();i++)</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="keyword">if</span>(nums[i_conquer] != nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                i_conquer++;</span><br><span class="line">                nums[i_conquer] = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>==nums.size()?<span class="number">0</span>:i_conquer+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>Remove Nth Node From End of List</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeNthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head-&gt;next == <span class="literal">NULL</span>&amp;&amp; n==<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        </span><br><span class="line">        ListNode* s;</span><br><span class="line">        s = head;</span><br><span class="line">        <span class="keyword">int</span> len=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(s-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            len++;</span><br><span class="line">            s = s-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>((len) &lt; n)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(len == n)</span><br><span class="line">            <span class="keyword">return</span> head-&gt;next;</span><br><span class="line">        </span><br><span class="line">        s = head;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; len-n<span class="number">-1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            s = s-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        s-&gt;next = s-&gt;next-&gt;next;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//第二种解法</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeNthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head-&gt;next == <span class="literal">NULL</span>&amp;&amp; n==<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        ListNode* first = head;</span><br><span class="line">        ListNode* second = head;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            first = first-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(first == <span class="literal">NULL</span>)   <span class="keyword">return</span> head-&gt;next;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(first-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            first = first-&gt;next;</span><br><span class="line">            second = second-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        second-&gt;next = second-&gt;next-&gt;next;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Valid Parentheses<br>Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.<br>An input string is valid if:<br>Open brackets must be closed by the same type of brackets.<br>Open brackets must be closed in the correct order.<br>Note that an empty string is also considered valid.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我的解法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == s.length())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt; <span class="built_in">stack</span>;</span><br><span class="line">        <span class="built_in">stack</span>.push_back(s[<span class="number">0</span>]);</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>, <span class="keyword">char</span>&gt; left_to_right = &#123;&#123;<span class="string">'&#123;'</span>, <span class="string">'&#125;'</span>&#125;,</span><br><span class="line">                                              &#123;<span class="string">'['</span>, <span class="string">']'</span>&#125;,</span><br><span class="line">                                              &#123;<span class="string">'('</span>, <span class="string">')'</span>&#125;&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt; s.length();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(left_to_right[<span class="built_in">stack</span>.back()] == s[i])</span><br><span class="line">                <span class="built_in">stack</span>.pop_back();</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">stack</span>.push_back(s[i]);</span><br><span class="line">                </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">stack</span>.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Merge Two Sorted Lists<br>Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.<br>Example:<br>Input: 1-&gt;2-&gt;4, 1-&gt;3-&gt;4<br>Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//花的时间太久了，加上debug快两个小时了，和十五分钟一个相差甚远</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        ListNode* merge;</span><br><span class="line">        ListNode* l1_c = l1;</span><br><span class="line">        ListNode* l2_c = l2;</span><br><span class="line">        ListNode* merge_c;</span><br><span class="line">        </span><br><span class="line">        merge = (ListNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(ListNode));</span><br><span class="line">        merge_c = merge;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == l1 &amp;&amp; <span class="literal">NULL</span> != l2) <span class="keyword">return</span> l2;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> != l1 &amp;&amp; <span class="literal">NULL</span> == l2) <span class="keyword">return</span> l1;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == l1 &amp;&amp; <span class="literal">NULL</span> == l2) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(l1_c-&gt;val &lt;= l2_c-&gt;val)</span><br><span class="line">        &#123;</span><br><span class="line">            merge_c-&gt;val = l1_c-&gt;val;</span><br><span class="line">            l1_c = l1_c-&gt;next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            merge_c-&gt;val = l2_c-&gt;val;</span><br><span class="line">            l2_c = l2_c-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        merge_c-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">NULL</span> != l1_c&amp;&amp; <span class="literal">NULL</span> != l2_c)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* newNode;</span><br><span class="line">            newNode = (ListNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(ListNode));</span><br><span class="line">            merge_c-&gt;next = newNode;</span><br><span class="line">            <span class="keyword">if</span>(l1_c-&gt;val &lt;= l2_c-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                newNode-&gt;val = l1_c-&gt;val;</span><br><span class="line">                l1_c = l1_c-&gt;next;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                newNode-&gt;val = l2_c-&gt;val;</span><br><span class="line">                l2_c = l2_c-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">             </span><br><span class="line">            newNode-&gt;next = <span class="literal">NULL</span>; </span><br><span class="line">            merge_c = merge_c-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        ListNode* l3;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == l1_c &amp;&amp; <span class="literal">NULL</span> != l2_c)</span><br><span class="line">        &#123;</span><br><span class="line">            l3 = l2_c;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="literal">NULL</span> != l1_c &amp;&amp; <span class="literal">NULL</span> == l2_c)&#123;</span><br><span class="line">            l3 = l1_c;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> merge;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">NULL</span> != l3)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* newNode;</span><br><span class="line">            newNode = (ListNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(ListNode));</span><br><span class="line">            merge_c-&gt;next = newNode;</span><br><span class="line">            newNode-&gt;val = l3-&gt;val;</span><br><span class="line">            newNode-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">            l3 = l3-&gt;next;</span><br><span class="line">            </span><br><span class="line">            merge_c = merge_c-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> merge;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在discussion里面看到一个十分棒的解题思路,货比货，还得扔，不过在运行时长上倒是一致，可能是递归的原因吧</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == l1)  <span class="keyword">return</span> l2;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == l2)  <span class="keyword">return</span> l1;</span><br><span class="line">        <span class="keyword">if</span>(l1-&gt;val &lt; l2-&gt;val)</span><br><span class="line">        &#123;</span><br><span class="line">            l1-&gt;next = mergeTwoLists(l1-&gt;next,l2);</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            l2-&gt;next = mergeTwoLists(l1,l2-&gt;next);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//至于其它的方法思想大概都一致，不过他们没有生成新的空间而已，照着这个思路来完成代码应该与他们的结果没多大区别</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given an array nums and a value val, remove all instances of that value in-place and return the new length.<br>Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.<br>The order of elements can be changed. It doesn’t matter what you leave beyond the new length.<br>Example 1:<br>Given nums = [3,2,2,3], val = 3,</p>
+</blockquote>
+<p>Your function should return length = 2, with the first two elements of nums being 2.</p>
+<p>It doesn’t matter what you leave beyond the returned length.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这段代码我在临界区调bug调了一个多小时，一开始的思想就是一头一尾两个index来寻，感觉真机智，现在感觉石乐志。很多时候灵机一动不如深思熟虑，虽然这份代码也不是没用就是，因为我这个在完全只使用数组的时候还有用，但在使用了向量后便一无是处。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == nums.size())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> front = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> back = nums.size()<span class="number">-1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(;front &lt; back;front++ )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(val == nums[front])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">while</span>(val == nums[back] &amp;&amp; front &lt; back)</span><br><span class="line">                    back--;</span><br><span class="line">                <span class="keyword">if</span>(front == back)</span><br><span class="line">                &#123;</span><br><span class="line">                    front--;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                         </span><br><span class="line">                nums[front] = nums[back];</span><br><span class="line">                <span class="keyword">if</span>((front+<span class="number">1</span>) == back)   <span class="keyword">return</span> front+<span class="number">1</span>;</span><br><span class="line">                back--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(val != nums[front])  <span class="keyword">return</span> front+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>  <span class="keyword">return</span> front;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//相同交换思想但是比我逻辑通顺得多的代码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; nums.size())&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == val)&#123;</span><br><span class="line">                swap(nums[i], nums.back());</span><br><span class="line">                nums.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//很好利用了vector特点的代码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it = nums.begin();</span><br><span class="line">        <span class="keyword">while</span>(it != nums.end()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(*(it) == val) &#123;</span><br><span class="line">                it = nums.erase(it);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                it++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/09/06/识别人脸特征点-tensorflow-python-模型的使用/" title= 识别人脸特征点(tensorflow+python+模型的使用) >
+                    <div class="prevTitle">识别人脸特征点(tensorflow+python+模型的使用)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:yy190919@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/saber190919" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/qr.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 6 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2018/10/04/leetcode刷题（1）/" >leetcode刷题（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/06</span><a class="archive-post-title" href= "/2018/09/06/识别人脸特征点-tensorflow-python-模型的使用/" >识别人脸特征点(tensorflow+python+模型的使用)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/214前夕，有人叫我“爸爸”/" >214前夕，有人叫我“爸爸”</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/hexo配置mathjax/" >hexo配置mathjax</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/记忆里的秘密花园/" >记忆里的秘密花园</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/testBlog/" >testBlog</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
+    
+        <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
+    
+        <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
+    
+        <span class="sidebar-tag-name" data-tags="tensorflow"><span class="iconfont-archer">&#xe606;</span>tensorflow</span>
+    
+        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
+    
+        <span class="sidebar-category-name" data-categories="图像处理"><span class="iconfont-archer">&#xe60a;</span>图像处理</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'John Doe'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
+
+

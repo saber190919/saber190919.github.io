@@ -365,6 +365,11 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/10/04/leetcode刷题（1）/" title= leetcode刷题（1） >
+                    <div class="nextTitle">leetcode刷题（1）</div>
+                </a>
+            
         </li>
         <li class="previous">
             
@@ -536,7 +541,18 @@ top:50vh;
     
     
     
-    <div class="total-archive"> Total : 5 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 6 </div>
     
     <div class="post-archive">
     
@@ -545,6 +561,11 @@ top:50vh;
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2018/10/04/leetcode刷题（1）/" >leetcode刷题（1）</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -576,13 +597,15 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
+        <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
     
         <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
     
-        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
+        <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
     
         <span class="sidebar-tag-name" data-tags="tensorflow"><span class="iconfont-archer">&#xe606;</span>tensorflow</span>
+    
+        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -642,9 +665,24 @@ jsonContent:
     </div>
     <!-- async load share.js -->
     
-        <script src="/scripts/share.js" async></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->    
+        <script src="/scripts/share.js" async></script>    
     
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
 </html>
 
 
