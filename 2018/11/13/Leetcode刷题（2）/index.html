@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>Leetcode刷题（2） · Chaos_Yeats&#39; Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180311 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180311 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/qiuye.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Chaos_Yeats&#39; Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Leetcode刷题（2）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Chaos_Yeats' Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Leetcode刷题（2）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = c++>c++</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/11/13</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>Implement strStr()<br>Implement strStr().<br>Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.<br>Example 1:<br>Input: haystack = “hello”, needle = “ll”<br>Output: 2</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我的解法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strStr</span><span class="params">(<span class="built_in">string</span> haystack, <span class="built_in">string</span> needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == needle.length())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == haystack.length())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i + needle.length() &lt;= haystack.length();i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(haystack.compare(i,needle.length(),needle) == <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//别人的解法，其实就是在不使用函数的情况下该有的写法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strStr</span><span class="params">(<span class="built_in">string</span> haystack, <span class="built_in">string</span> needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!needle.length()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> n_i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;haystack.length(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(haystack[i] == needle[n_i]) &#123;</span><br><span class="line">                n_i++;</span><br><span class="line">                <span class="keyword">if</span>(n_i == needle.size()) &#123;</span><br><span class="line">                    <span class="keyword">return</span> i-needle.size()+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                i = i - n_i;</span><br><span class="line">                n_i = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//与我方法类似的解法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">A_at_B_pos</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp; A, <span class="keyword">const</span> <span class="built_in">string</span> &amp; B, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pos + A.size() &gt; B.size())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; A.size(); x++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (A[x] != B[pos + x])</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strStr</span><span class="params">(<span class="built_in">string</span> haystack, <span class="built_in">string</span> needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (needle.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; haystack.size(); x++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (A_at_B_pos(needle, haystack, x))</span><br><span class="line">                <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Search Insert Position<br>Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.<br>You may assume no duplicates in the array.<br>Example 1:<br>Input: [1,3,5,6], 5<br>Output: 2</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我的</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;:: iterator pos;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(pos = nums.begin();pos &lt; nums.end();++pos)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(*pos &lt; target)</span><br><span class="line">            &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//最快的解法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, end = nums.size()<span class="number">-1</span>, mid = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(start&lt;=end) &#123;</span><br><span class="line">            mid = (start + end) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">                end = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                start = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nums[mid] &gt; target? mid:mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>The count-and-say sequence is the sequence of integers with the first five terms as following:</p>
+<ol>
+<li>1</li>
+<li>11</li>
+<li>21</li>
+<li>1211</li>
+<li>111221<br>1 is read off as “one 1” or 11.<br>11 is read off as “two 1s” or 21.<br>21 is read off as “one 2, then one 1” or 1211</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//本题理解题目就花了２０分钟，然后调试程序又花了许久,使用迭代完成，在运行时间上很慢</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">countAndSay</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span>==n) <span class="keyword">return</span> <span class="string">"1"</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">string</span> ns = countAndSay(n<span class="number">-1</span>)+<span class="string">"#"</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">string</span> sp = ns.substr(<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">string</span> nsPlus = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>;i &lt; ns.length();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="number">0</span> == sp.compare(ns.substr(i,<span class="number">1</span>)))</span><br><span class="line">                j++;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">string</span> s = <span class="built_in">std</span>::to_string(j);</span><br><span class="line">                nsPlus = nsPlus + s + sp;</span><br><span class="line">                sp = ns.substr(i,<span class="number">1</span>);</span><br><span class="line">                j = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> nsPlus;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//直接生成的在提交的代码里面时运行速度最快的</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">countAndSay</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> cur = <span class="string">"1"</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> curChar = cur[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> curCount = <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">string</span> tmp = <span class="string">""</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= cur.length(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(j == cur.length() || cur[j] != curChar) &#123;</span><br><span class="line">                    tmp += <span class="keyword">char</span>(curCount + <span class="string">'0'</span>);</span><br><span class="line">                    tmp += curChar;</span><br><span class="line">                    curChar = cur[j];</span><br><span class="line">                    curCount = <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    curCount++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            cur = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.<br>Example:<br>Input: [-2,1,-3,4,-1,2,1,-5,4],<br>Output: 6<br>Explanation: [4,-1,2,1] has the largest sum = 6.<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这道题是真的做了我许久，因为总想有个骚操作，结果代码越写越长，bug也越来越多，最后全删了，重新写过。虽然这份代码跑起来很慢，但是还好还比较简洁，易于理解</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; per_num_sum;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> max_sub_sum = nums[i];</span><br><span class="line">            <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">1</span>;j &lt; nums.size();j++)</span><br><span class="line">            &#123;</span><br><span class="line">                temp += nums[j];</span><br><span class="line">                <span class="keyword">if</span>(temp &gt; max_sub_sum)</span><br><span class="line">                    max_sub_sum = temp;</span><br><span class="line">            &#125;</span><br><span class="line">            per_num_sum.push_back(max_sub_sum);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator max = max_element(per_num_sum.begin(), per_num_sum.end());</span><br><span class="line">        <span class="keyword">return</span> *max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//看了下这份最快的代码，心态爆炸，最好理解的也是最快的，毕竟只是求子集最大值，并不需要其他的返回</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// popular question</span></span><br><span class="line">        <span class="comment">// strategy: online algorithm</span></span><br><span class="line">        <span class="keyword">int</span> maxSum = INT_MIN;</span><br><span class="line">        <span class="keyword">int</span> thisSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">            thisSum += nums[i];</span><br><span class="line">            <span class="keyword">if</span> (thisSum &gt; maxSum) &#123;</span><br><span class="line">                maxSum = thisSum;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (thisSum &lt; <span class="number">0</span>)</span><br><span class="line">                thisSum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//一份更为简洁的python代码</span></span><br><span class="line">for i in range(1, len(nums)):</span><br><span class="line">    <span class="keyword">if</span> nums[i<span class="number">-1</span>] &gt; <span class="number">0</span>:</span><br><span class="line">        nums[i] += nums[i<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">return</span> max(nums)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>Given a string s consists of upper/lower-case alphabets and empty space characters ‘ ‘, return the length of last word in the string.<br>If the last word does not exist, return 0.<br>Note: A word is defined as a character sequence consists of non-space characters only.<br>Example:<br>Input: “Hello World”<br>Output: 5</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这份代码已经是最快的了，但是很明显从背后来会更快</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLastWord</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> b_null = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; s.length();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">' '</span>!= s[s.length()<span class="number">-1</span>-i])</span><br><span class="line">            &#123;</span><br><span class="line">                b_null = i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">                </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; s.length()- b_null;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">' '</span> == s[i])</span><br><span class="line">                len = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                len++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//稍微修改了下</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLastWord</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> fir_null = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = s.length() - <span class="number">1</span>;i &gt;= <span class="number">0</span>;i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">' '</span> != s[i])&#123;</span><br><span class="line">                len++;</span><br><span class="line">                fir_null = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(fir_null)</span><br><span class="line">                <span class="keyword">break</span>;       </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//看到个这种的，但是很明显这份代码会很慢</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLastWord</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> buf;</span><br><span class="line">        <span class="function"><span class="built_in">stringstream</span> <span class="title">ss</span><span class="params">(s)</span></span>;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (ss &gt;&gt; buf)</span><br><span class="line">            len = buf.length();</span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//还有这个究极进化体</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLastWord</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>, tail = s.length() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (tail &gt;= <span class="number">0</span> &amp;&amp; s[tail] == <span class="string">' '</span>) tail--;</span><br><span class="line">        <span class="keyword">while</span> (tail &gt;= <span class="number">0</span> &amp;&amp; s[tail--] != <span class="string">' '</span>) len++;</span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given two binary trees, write a function to check if they are the same or not.<br>Two binary trees are considered the same if they are structurally identical and the nodes have the same value.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//也算是独立完成了一个递归，之前的递归总是会看到答案，比如停止条件什么的，最快的答案与我这个没有多大的区别，大概这就是最好想的答案吧。</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSameTree</span><span class="params">(TreeNode* p, TreeNode* q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(p == <span class="literal">NULL</span> &amp;&amp; q == <span class="literal">NULL</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>((p == <span class="literal">NULL</span> &amp;&amp; q != <span class="literal">NULL</span>) || (p != <span class="literal">NULL</span> &amp;&amp; q == <span class="literal">NULL</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p-&gt;val == q-&gt;val)</span><br><span class="line">                <span class="keyword">return</span> isSameTree(p-&gt;left,q-&gt;left) &amp;&amp; isSameTree(p-&gt;right,q-&gt;right);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//还有一种就是使用栈，以下是来自评论区的一份代码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSameTree</span><span class="params">(TreeNode* p, TreeNode* q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p &amp;&amp; !q || !p &amp;&amp; q) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (!p &amp;&amp; !q) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">stack</span>&lt;TreeNode*&gt; ps, qs;</span><br><span class="line">        ps.push(p);</span><br><span class="line">        qs.push(q);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!ps.empty()) &#123;</span><br><span class="line">            <span class="keyword">auto</span> *pNode = ps.top(), *qNode = qs.top();</span><br><span class="line">            ps.pop();</span><br><span class="line">            qs.pop();</span><br><span class="line">            <span class="keyword">if</span> (pNode-&gt;val != qNode-&gt;val</span><br><span class="line">                || pNode-&gt;left &amp;&amp; !qNode-&gt;left || !pNode-&gt;left &amp;&amp; qNode-&gt;left</span><br><span class="line">                || pNode-&gt;right &amp;&amp; !qNode-&gt;right || !pNode-&gt;right &amp;&amp; qNode-&gt;right) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (pNode-&gt;right) &#123;</span><br><span class="line">                ps.push(pNode-&gt;right);</span><br><span class="line">                qs.push(qNode-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (pNode-&gt;left) &#123;</span><br><span class="line">                ps.push(pNode-&gt;left);</span><br><span class="line">                qs.push(qNode-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given a non-empty array of digits representing a non-negative integer, plus one to the integer.<br>The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.<br>You may assume the integer does not contain any leading zero, except the number 0 itself.<br>Example 1:<br>Input: [1,2,3]<br>Output: [1,2,4]<br>Explanation: The array represents the integer 123.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//感觉这样写速度应该还可以</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; plusOne(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; digits) &#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.back() != <span class="number">9</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            digits.back() += <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">return</span> digits;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> i;</span><br><span class="line">            <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt;= digits.size();i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(digits[digits.size()-i<span class="number">-1</span>] != <span class="number">9</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    digits[digits.size()-i<span class="number">-1</span>] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(digits.size() == i)</span><br><span class="line">                digits.insert(digits.begin(),<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                digits[digits.size()-i<span class="number">-1</span>] += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这份代码确实精简</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; plusOne(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; digits) &#123;</span><br><span class="line">        <span class="keyword">int</span> i = digits.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; ++digits[i] == <span class="number">10</span>) &#123;</span><br><span class="line">            digits[i] = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                digits.insert(digits.begin(), <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given two binary strings, return their sum (also a binary string).<br>The input strings are both non-empty and contains only characters 1 or 0.<br>Example 1:<br>Input: a = “11”, b = “1”<br>Output: “100”<br>Example 2:<br>Input: a = “1010”, b = “1011”<br>Output: “10101”</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//费时许久才完成这个，但是我到现在还是觉得是这个平台编译器的问题，所以我只是换了中写法而已，本质上就是一样的，但是之前确实疯狂报错，而且报的错很离谱</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">addBinary</span><span class="params">(<span class="built_in">string</span> a, <span class="built_in">string</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> rs = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(a.length() != b.length())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(a.length() &lt; b.length())</span><br><span class="line">                a.insert(<span class="number">0</span>,<span class="string">"0"</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                b.insert(<span class="number">0</span>,<span class="string">"0"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span>(i = a.length() - <span class="number">1</span>;i &gt; <span class="number">-1</span>;i--)</span><br><span class="line">        &#123;    </span><br><span class="line">            <span class="keyword">if</span>(a[i] == <span class="string">'0'</span> &amp;&amp; b[i] == <span class="string">'0'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                rs.insert(<span class="number">0</span>,(carry?<span class="string">"1"</span>:<span class="string">"0"</span>));</span><br><span class="line">                carry = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(a[i] == <span class="string">'0'</span> &amp;&amp; b[i] == <span class="string">'1'</span> || a[i] == <span class="string">'1'</span> &amp;&amp; b[i] == <span class="string">'0'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                rs.insert(<span class="number">0</span>,(carry?<span class="string">"0"</span>:<span class="string">"1"</span>));</span><br><span class="line">                carry = (carry?<span class="number">1</span>:<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(a[i] == <span class="string">'1'</span> &amp;&amp; b[i] == <span class="string">'1'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                rs.insert(<span class="number">0</span>,(carry?<span class="string">"1"</span>:<span class="string">"0"</span>));</span><br><span class="line">                carry = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(carry)</span><br><span class="line">            rs.insert(<span class="number">0</span>,<span class="string">"1"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> rs;                   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//速度在第一的一个方法，很是精巧</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">addBinary</span><span class="params">(<span class="built_in">string</span> a, <span class="built_in">string</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> s = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">int</span> c = <span class="number">0</span>, i = a.size() - <span class="number">1</span>, j = b.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &gt;= <span class="number">0</span> || j &gt;= <span class="number">0</span> || c == <span class="number">1</span>) &#123;</span><br><span class="line">            c += i &gt;= <span class="number">0</span> ? a[i--] - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">            c += j &gt;= <span class="number">0</span> ? b[j--] - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">            s = <span class="keyword">char</span>(c % <span class="number">2</span> + <span class="string">'0'</span>) + s;</span><br><span class="line">            c /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后评论区一个短小精悍的python代码来了&gt;__&lt;</span></span><br><span class="line"><span class="keyword">return</span> str(bin(<span class="keyword">int</span>(a, <span class="number">2</span>) + <span class="keyword">int</span>(b, <span class="number">2</span>)))[<span class="number">2</span>:]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Implement int sqrt(int x).<br>Compute and return the square root of x, where x is guaranteed to be a non-negative integer.<br>Since the return type is an integer, the decimal digits are truncated and only the integer part of the result is returned.</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//本段代码是通过数字的二进制有多少位来确定一个计算区间，在运算的时候受到了乘法溢出的影响，还好换成long就解决了</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> == x)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">8</span>*<span class="keyword">sizeof</span>(x);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> reverX = ~x;</span><br><span class="line">        <span class="keyword">int</span> preZeroLen = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(reverX &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            reverX = reverX &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            preZeroLen++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> realLen = len - preZeroLen;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> start = <span class="built_in">pow</span>(<span class="number">2</span>,(realLen<span class="number">-1</span>)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">int</span> end = <span class="built_in">pow</span>(<span class="number">2</span>,(realLen+<span class="number">1</span>)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">int</span> medium = (start + end)/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((start+<span class="number">1</span>) != end &amp;&amp; (medium*medium)!=x)</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(medium*medium &gt;= x)</span><br><span class="line">                end = medium;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                start = medium;</span><br><span class="line">            medium = (start + end)/<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> medium;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第一快的代码，把二分和迭代的思想用到了极致啊，真是不错</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">int</span> r = x;</span><br><span class="line">        <span class="keyword">while</span> (r &gt; x / r) &#123;</span><br><span class="line">            r = (r + x / r) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>You are climbing a stair case. It takes n steps to reach to the top.<br>Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?<br>Note: Given n will be a positive integer.<br>Example 1:<br>Input: 2<br>Output: 2<br>Explanation: There are two ways to climb to the top.</p>
+<ol>
+<li>1 step + 1 step</li>
+<li>2 steps</li>
+</ol>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//头一次递归碰到报超时的，其实结果应该是对的，但是不满足要求，先记着吧，再说</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span> ==n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">2</span> == n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            <span class="keyword">return</span> climbStairs(n<span class="number">-1</span>)+climbStairs(n<span class="number">-2</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//由于需要加速于是有了以下代码（还是评论区大佬的），unordered_map比一般的map查询速度更快存储消耗更多</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; maps;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span> == n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">2</span> == n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &gt; <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(maps[n])</span><br><span class="line">                <span class="keyword">return</span> maps[n];</span><br><span class="line">            <span class="keyword">int</span> val = climbStairs(n<span class="number">-1</span>) + climbStairs(n<span class="number">-2</span>);</span><br><span class="line">            maps[n] = val;</span><br><span class="line">            <span class="keyword">return</span> val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//另一个刚好相反思想的代码</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> dp[n+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i] = dp[i<span class="number">-1</span>] + dp[i<span class="number">-2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/11/13/skimage-transform-estimate-transform-skimage-transform-warp-tform的使用/" title= skimage.transform.estimate_transform(),skimage.transform.warp(),tform的使用 >
+                    <div class="nextTitle">skimage.transform.estimate_transform(),skimage.transform.warp(),tform的使用</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/10/04/leetcode刷题（1）/" title= leetcode刷题（1） >
+                    <div class="prevTitle">leetcode刷题（1）</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:yy190919@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/saber190919" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/qr.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 10 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/Leetcode刷题（2）/" >Leetcode刷题（2）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/skimage-transform-estimate-transform-skimage-transform-warp-tform的使用/" >skimage.transform.estimate_transform(),skimage.transform.warp(),tform的使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/python-argparse-ArgumentParser-使用小结/" >python argparse.ArgumentParser()使用小结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/cython调用自己编写的c语言代码/" >cython调用自己编写的ｃ语言代码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href= "/2018/10/04/leetcode刷题（1）/" >leetcode刷题（1）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/06</span><a class="archive-post-title" href= "/2018/09/06/识别人脸特征点-tensorflow-python-模型的使用/" >识别人脸特征点(tensorflow+python+模型的使用)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/214前夕，有人叫我“爸爸”/" >214前夕，有人叫我“爸爸”</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/hexo配置mathjax/" >hexo配置mathjax</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/记忆里的秘密花园/" >记忆里的秘密花园</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/testBlog/" >testBlog</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
+    
+        <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
+    
+        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
+    
+        <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
+    
+        <span class="sidebar-tag-name" data-tags="tensorflow"><span class="iconfont-archer">&#xe606;</span>tensorflow</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
+    
+        <span class="sidebar-category-name" data-categories="图像处理"><span class="iconfont-archer">&#xe60a;</span>图像处理</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'John Doe'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
+
+
