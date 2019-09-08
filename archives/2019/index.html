@@ -299,6 +299,32 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2019/09/08/tensorflow-arg-scope测试其所在范围/" >
+                
+                    <span>tensorflow arg_scope测试其所在范围</span>
+            </a>
+            <div class="abstract-content">
+                首先是完善的不报错的代码及输出：123456789101112131415161718192021222324252627282930313233# -*- coding: UTF-8 -*-import sysreload(sys)sys.setdefaultencoding('utf8')from tensorflow.contrib.framework import arg_scope,add_arg_scopedef print_hh(name = 'ss'):    print(name)@add_arg_scopedef print_ee(name,add_args):   ...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/08</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = tensorflow>tensorflow</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2019/09/08/ICP/" >
                 
                     <span>ICP</span>
@@ -316,7 +342,7 @@
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = matlab python>matlab python</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = matlab，python>matlab，python</a>
     
 </div>
                 
@@ -527,7 +553,18 @@
     
     
     
-    <div class="total-archive"> Total : 11 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 12 </div>
     
     <div class="post-archive">
     
@@ -536,6 +573,11 @@
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/tensorflow-arg-scope测试其所在范围/" >tensorflow arg_scope测试其所在范围</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -606,13 +648,13 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="matlab，python"><span class="iconfont-archer">&#xe606;</span>matlab，python</span>
+    
         <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
     
         <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
-    
-        <span class="sidebar-tag-name" data-tags="matlab python"><span class="iconfont-archer">&#xe606;</span>matlab python</span>
     
         <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
     
@@ -657,6 +699,8 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
     
+        <span class="sidebar-category-name" data-categories="机器学习"><span class="iconfont-archer">&#xe60a;</span>机器学习</span>
+    
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
@@ -678,7 +722,22 @@ jsonContent:
     </div>
     <!-- async load share.js -->
     
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 

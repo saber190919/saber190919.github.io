@@ -513,7 +513,18 @@ height:50vh;
     
     
     
-    <div class="total-archive"> Total : 11 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 12 </div>
     
     <div class="post-archive">
     
@@ -522,6 +533,11 @@ height:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/tensorflow-arg-scope测试其所在范围/" >tensorflow arg_scope测试其所在范围</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -592,13 +608,13 @@ height:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="matlab，python"><span class="iconfont-archer">&#xe606;</span>matlab，python</span>
+    
         <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
     
         <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
-    
-        <span class="sidebar-tag-name" data-tags="matlab python"><span class="iconfont-archer">&#xe606;</span>matlab python</span>
     
         <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
     
@@ -643,6 +659,8 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
     
+        <span class="sidebar-category-name" data-categories="机器学习"><span class="iconfont-archer">&#xe60a;</span>机器学习</span>
+    
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
@@ -662,9 +680,24 @@ jsonContent:
     <!-- CNZZ  -->
     
     </div>
-    <!-- async load share.js --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <!-- async load share.js -->
     
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
 </html>
 
 
