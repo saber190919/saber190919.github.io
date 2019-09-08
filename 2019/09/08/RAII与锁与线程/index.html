@@ -7,9 +7,9 @@
 
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>Chaos_Yeats&#39; Studio</title>
+    <title>RAII与锁与线程 · Chaos_Yeats&#39; Studio</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -246,17 +246,28 @@
     <script src="/scripts/main.js" defer></script>
     <!-- 百度统计  -->
     
-    <!-- 谷歌统计  -->
+    <!-- 谷歌统计  --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
     
 </head>
 
     
+        <body class="post-body">
     
-<header class="header">
+    
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Chaos_Yeats&#39; Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">RAII与锁与线程</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Chaos_Yeats' Studio.</a>
 </header>
@@ -270,61 +281,110 @@
 
 
 
+height:50vh;
+
 >
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            RAII与锁与线程
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = c++>c++</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2019/09/08</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">RAII（Resource Acquisition Is Initialization）是由c++之父Bjarne Stroustrup提出的，中文翻译为资源获取即初始化，</span></span><br><span class="line"><span class="comment">他说：使用局部对象来管理资源的技术称为资源获取即初始化；这里的资源主要是指操作系统中有限的东西如内存、网络套接字等等，</span></span><br><span class="line"><span class="comment">局部对象是指存储在栈的对象，它的生命周期是由操作系统来管理的，无需人工介入；</span></span><br><span class="line"><span class="comment">利用了C++语言局部对象自动销毁的特性来控制资源的生命周期。</span></span><br><span class="line"><span class="comment">RAII的四个步骤：</span></span><br><span class="line"><span class="comment">1.设计一个类封装资源</span></span><br><span class="line"><span class="comment">2.在构造函数中初始化</span></span><br><span class="line"><span class="comment">3.在析构函数中执行销毁</span></span><br><span class="line"><span class="comment">4.在使用时声明一个该类的对象</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> LockType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScopeLock</span></span></span><br><span class="line"><span class="class">&#123;</span><span class="comment">// 类似lock_guard的锁</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	explicit ScopeLock(LockType &amp;lock):m_lock(lock) //禁止隐式类型转换,引用的初始化必须在成员初始化列表内完成</span><br><span class="line">	&#123;</span><br><span class="line">		m_lock.lock();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	~ScopeLock()</span><br><span class="line">	&#123;</span><br><span class="line">		m_lock.unlock();</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	LockType&amp; m_lock;</span><br><span class="line">	ScopeLock(<span class="keyword">const</span> ScopeLock&amp; lock) = <span class="keyword">delete</span>;</span><br><span class="line">	ScopeLock&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ScopeLock&amp; lock) = <span class="keyword">delete</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	mutex m;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">getLock</span><span class="params">(<span class="keyword">int</span> &amp;total)</span> </span>&#123;</span><br><span class="line">		ScopeLock&lt;mutex&gt; slock(m);</span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">1000000</span>;</span><br><span class="line">		<span class="keyword">while</span> (i--) &#123;</span><br><span class="line">			total++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">std</span>::thread::id tid = <span class="built_in">std</span>::this_thread::get_id();</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"total_lock:"</span> &lt;&lt; total &lt;&lt; <span class="string">",tid:"</span> &lt;&lt; tid &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> total = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">vector</span>&lt;thread&gt; vth;</span><br><span class="line">	Test t;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">		thread t(&amp;Test::getLock,&amp;t, std::ref(total)); // 传入的参数是引用</span><br><span class="line">		vth.push_back(<span class="built_in">std</span>::move(t));<span class="comment">// 只能move,不能够复制,或者直接如下vth.push_back(thread(&amp;Test::getLock,&amp;t, std::ref(total));</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">		vth[i].join();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/09/08/C++的各种加锁/" title= C++的各种加锁 >
+                    <div class="nextTitle">C++的各种加锁</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/09/08/tensorflow-arg-scope测试其所在范围/" title= tensorflow arg_scope测试其所在范围 >
+                    <div class="prevTitle">tensorflow arg_scope测试其所在范围</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
     
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
-        <article class="index-post">
-            <a class="abstract-title" href = "/2019/09/08/ICP/" >
-                
-                    <span>ICP</span>
-            </a>
-            <div class="abstract-content">
-                ICP 基本上有两种解法
-四元法12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788function ret = normal_gravity( data )% 数据在重心上正则化    [m, n] = size(data);    data_mean = mean(data);%坐标在x,y,z上的平均值 ...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/09/08</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = matlab，python>matlab，python</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -401,6 +461,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -538,7 +616,49 @@
     
     
     
-    <div class="total-archive"> Total : 12 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 14 </div>
     
     <div class="post-archive">
     
@@ -550,7 +670,17 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/C++的各种加锁/" >C++的各种加锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/tensorflow-arg-scope测试其所在范围/" >tensorflow arg_scope测试其所在范围</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/RAII与锁与线程/" >RAII与锁与线程</a>
         </li>
     
     
@@ -574,7 +704,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/python-argparse-ArgumentParser-使用小结/" >python argparse.ArgumentParser()使用小结</a>
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/skimage-transform-estimate-transform-skimage-transform-warp-tform的使用/" >skimage.transform.estimate_transform(),skimage.transform.warp(),tform的使用</a>
         </li>
     
     
@@ -584,7 +714,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/skimage-transform-estimate-transform-skimage-transform-warp-tform的使用/" >skimage.transform.estimate_transform(),skimage.transform.warp(),tform的使用</a>
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/python-argparse-ArgumentParser-使用小结/" >python argparse.ArgumentParser()使用小结</a>
         </li>
     
     
@@ -622,19 +752,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="matlab，python"><span class="iconfont-archer">&#xe606;</span>matlab，python</span>
+        <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
     
         <span class="sidebar-tag-name" data-tags="杂文"><span class="iconfont-archer">&#xe606;</span>杂文</span>
     
-        <span class="sidebar-tag-name" data-tags="c++"><span class="iconfont-archer">&#xe606;</span>c++</span>
-    
-        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+        <span class="sidebar-tag-name" data-tags="matlab"><span class="iconfont-archer">&#xe606;</span>matlab</span>
     
         <span class="sidebar-tag-name" data-tags="随记"><span class="iconfont-archer">&#xe606;</span>随记</span>
     
-        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
         <span class="sidebar-tag-name" data-tags="tensorflow"><span class="iconfont-archer">&#xe606;</span>tensorflow</span>
+    
+        <span class="sidebar-tag-name" data-tags="test"><span class="iconfont-archer">&#xe606;</span>test</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -669,11 +799,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="c-开发"><span class="iconfont-archer">&#xe60a;</span>c-开发</span>
+    
         <span class="sidebar-category-name" data-categories="图像处理"><span class="iconfont-archer">&#xe60a;</span>图像处理</span>
     
-        <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
-    
         <span class="sidebar-category-name" data-categories="机器学习"><span class="iconfont-archer">&#xe60a;</span>机器学习</span>
+    
+        <span class="sidebar-category-name" data-categories="杂文"><span class="iconfont-archer">&#xe60a;</span>杂文</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
@@ -696,6 +828,8 @@ jsonContent:
     </div>
     <!-- async load share.js -->
     
+        <script src="/scripts/share.js" async></script>    
+    
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
@@ -710,7 +844,7 @@ jsonContent:
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
 
